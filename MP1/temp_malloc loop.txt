@@ -1,0 +1,40 @@
+if (rounded_size == fib[i] * basic_block_size)
+		{
+			cout << "Proper fib size segment found";
+			SegmentHeader *iter = fList_vector[i].head;
+			cout << "Current iter: " << iter << endl;
+			while (1 == 1)
+			{
+				cout << "Current iter length: " << iter->length << endl;
+
+				if (iter->length > reqL && iter->is_free == true)
+				{
+					cout << "Suitable segment found @ " << iter << endl
+						 << "Segment Length: " << iter->length << endl
+						 << endl;
+					SegmentHeader *to_return = fList_vector[i].split(iter, reqL);
+					to_return += sizeof(SegmentHeader);
+					available_memory -= reqL;
+					return to_return;
+					break;
+				}
+				else if (iter->length == reqL && iter->is_free == true)
+				{
+					available_memory -= reqL;
+					fList_vector[i].Remove(iter);
+					iter += sizeof(SegmentHeader);
+					return iter;
+				}
+				else if (iter->next == NULL)
+				{
+					cout << "Suitable Segment Not Found" << endl;
+					return nullptr;
+					break;
+				}
+				else
+				{
+					cout << "Checking next SH" << endl;
+					iter = iter->next;
+				}
+			}
+		}
